@@ -75,7 +75,7 @@ export default {
     bottom: 0;
     height: 86px;
     width: 100%;
-    background: @xtxColor;
+    background: @webColor;
     text-align: center;
     transform: translate3d(0, 100%, 0);
     transition: all .5s;
@@ -97,7 +97,7 @@ export default {
   }
 
   &:hover {
-    border-color: @xtxColor;
+    border-color: @webColor;
 
     .extra {
       transform: none;

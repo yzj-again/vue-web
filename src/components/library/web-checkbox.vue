@@ -48,10 +48,10 @@ export default {
   margin-right: 2px;
 
   .icon-checked {
-    color: @xtxColor;
+    color: @webColor;
 
     ~ span {
-      color: @xtxColor;
+      color: @webColor;
     }
   }
 

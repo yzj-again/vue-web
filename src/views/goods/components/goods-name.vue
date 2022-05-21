@@ -123,13 +123,13 @@ export default {
 
           &::before {
             content: "•";
-            color: @xtxColor;
+            color: @webColor;
             margin-right: 2px;
           }
         }
 
         a {
-          color: @xtxColor;
+          color: @webColor;
         }
       }
     }

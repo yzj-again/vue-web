@@ -50,7 +50,7 @@ export default {
       transition: all .4s;
 
       &:hover {
-        color: @xtxColor;
+        color: @webColor;
       }
     }
   }

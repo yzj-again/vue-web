@@ -141,7 +141,7 @@ export default {
           }
 
           &:hover {
-            color: @xtxColor;
+            color: @webColor;
           }
         }
       }

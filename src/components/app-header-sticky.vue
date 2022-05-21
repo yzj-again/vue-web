@@ -55,14 +55,14 @@ export default {
     display: flex;
     text-align: center;
     padding-left: 40px;
-    border-left: 2px solid @xtxColor;
+    border-left: 2px solid @webColor;
     a {
       width: 38px;
       margin-right: 40px;
       font-size: 16px;
       line-height: 1;
       &:hover {
-        color: @xtxColor;
+        color: @webColor;
       }
     }
   }

@@ -75,7 +75,7 @@ export default {
   display: inline-block;
   text-align: center;
   margin-left: 5px;
-  background: @xtxColor;
+  background: @webColor;
 
   &::before {
     font-size: 12px;

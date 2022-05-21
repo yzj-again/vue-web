@@ -92,8 +92,8 @@ export default {
       transition: all .3s;
 
       &.active {
-        background: @xtxColor;
-        border-color: @xtxColor;
+        background: @webColor;
+        border-color: @webColor;
         color: #fff;
       }
 
@@ -107,7 +107,7 @@ export default {
           border-bottom-color: #bbb;
 
           &.active {
-            border-bottom-color: @xtxColor;
+            border-bottom-color: @webColor;
           }
         }
 
@@ -116,7 +116,7 @@ export default {
           border-top-color: #bbb;
 
           &.active {
-            border-top-color: @xtxColor;
+            border-top-color: @webColor;
           }
         }
       }

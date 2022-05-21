@@ -64,7 +64,7 @@ export default {
       border-radius: 4px;
 
       &:hover {
-        background: @xtxColor;
+        background: @webColor;
         color: #fff;
       }
 

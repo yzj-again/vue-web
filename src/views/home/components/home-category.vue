@@ -120,7 +120,7 @@ export default {
       height: 50px;
       line-height: 50px;
       &:hover,&.active {
-        background: @xtxColor;
+        background: @webColor;
       }
       a {
         margin-right: 4px;

@@ -72,8 +72,8 @@ export default {
 
     &:hover {
       > a {
-        color: @xtxColor;
-        border-bottom: 1px solid @xtxColor;
+        color: @webColor;
+        border-bottom: 1px solid @webColor;
       }
     }
   }
@@ -118,7 +118,7 @@ export default {
 
       &:hover {
         p {
-          color: @xtxColor;
+          color: @webColor;
         }
       }
     }

@@ -35,5 +35,5 @@ export const findSubCategoryFilter = (id) => {
  * @returns Promise
  */
 export const findSubCategoryGoods = (params) => {
-  return request('/category/goods/temporary', 'post', params)
+  return request('/category/goods', 'post', params)
 }

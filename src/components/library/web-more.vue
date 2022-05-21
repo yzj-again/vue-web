@@ -35,7 +35,7 @@ export default {
   }
   &:hover {
     span,i {
-      color: @xtxColor;
+      color: @webColor;
     }
   }
 }

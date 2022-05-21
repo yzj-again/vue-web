@@ -59,12 +59,12 @@ export default {
         color: #666;
         margin-top: 10px;
         i {
-          color: @xtxColor;
+          color: @webColor;
           font-size: 14px;
           margin-right: 2px;
         }
         &:hover {
-          color: @xtxColor;
+          color: @webColor;
           cursor: pointer;
         }
       }

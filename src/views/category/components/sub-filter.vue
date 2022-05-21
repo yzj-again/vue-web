@@ -141,7 +141,7 @@ export default {
 
         &.active,
         &:hover {
-          color: @xtxColor;
+          color: @webColor;
         }
       }
     }
