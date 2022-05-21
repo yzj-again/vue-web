@@ -54,7 +54,7 @@ export default {
     } = useMouseInElement(target)
     watch([elementX, elementY, isOutside], () => {
       // console.log(elementX) 均为响应式数据 .value
-      console.log(isOutside)
+      // console.log(isOutside)
       // 5.根据数据设置样式数据和是否显示数据
       // 设置是否显示预览大图
       show.value = !(isOutside.value)

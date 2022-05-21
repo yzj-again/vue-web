@@ -54,11 +54,7 @@ export default {
       //  设置二级分类的id
       requestParams.categoryId = route.params.id
       findSubCategoryGoods(requestParams).then(({ result }) => {
-        // 获取数据 解构出了result->items才是商品数据
-<<<<<<< HEAD
-=======
-        console.log(result)
->>>>>>> ba06a60 (城市组件)
+        // 获取数据 解构出了result->items才是商品数据`
         if (result.items.length) {
           // 有数据就追加
           goodsList.value.push(...result.items)

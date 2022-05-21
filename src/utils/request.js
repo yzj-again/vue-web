@@ -6,12 +6,7 @@ import axios from 'axios'
 // 导出基准地址，原因：其他地方不是通过axios发请求的地方用上基准地址
 import store from '@/store'
 import router from '@/router'
-
-<<<<<<< HEAD
-export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
-=======
 export const baseURL = 'https://apipc-xiaotuxian-front.itheima.net/'
->>>>>>> ba06a60 (城市组件)
 const instance = axios.create({
   // axios的一些配置 baseUrl，timeout
   baseURL,

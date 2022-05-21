@@ -12,7 +12,7 @@
     </dl>
     <dl>
       <dt>配送</dt>
-      <dd>至</dd>
+      <dd>至<WebCity @change="changeCity" :fullLocation="fullLocation"></WebCity></dd>
     </dl>
     <dl>
       <dt>服务</dt>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'GoodName',
   props: {
@@ -34,6 +36,31 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  setup (props) {
+    // 提供给后台的四项数据 (没登录)
+    const provinceCode = ref('110000')
+    const cityCode = ref('119900')
+    const countyCode = ref('110101')
+    const fullLocation = ref('北京市 市辖区 东城区')
+    // 取出用户收货地址中默认的地址给四个数据赋值 (已登录)
+    if (props.goods.userAddresses) {
+      const defaultAddresses = props.goods.userAddresses.find(item => item.isDefault === 1)
+      if (defaultAddresses) {
+        provinceCode.value = defaultAddresses.provinceCode
+        cityCode.value = defaultAddresses.cityCode
+        countyCode.value = defaultAddresses.countyCode
+        fullLocation.value = defaultAddresses.fullLocation
+      }
+    }
+    // 城市选中事件处理函数
+    const changeCity = (result) => {
+      provinceCode.value = result.provinceCode
+      cityCode.value = result.cityCode
+      countyCode.value = result.countyCode
+      fullLocation.value = result.fullLocation
+    }
+    return { fullLocation, changeCity }
   }
 }
 </script>

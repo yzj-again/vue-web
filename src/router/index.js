@@ -1,10 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 // 按需导入
-<<<<<<< HEAD
-const Layout = () => import('@/views/Layout')
-=======
 const Layout = () => import('@/views/VueLayout')
->>>>>>> ba06a60 (城市组件)
 const Home = () => import('@/views/home')
 const TopCategory = () => import('@/views/category/index')
 const SubCategory = () => import('@/views/category/sub')

@@ -14,5 +14,14 @@ module.exports = defineConfig({
         path.join(__dirname, './src/assets/styles/mixins.less')
       ]
     }
+  },
+  chainWebpack: config => {
+    config.module
+      .rule('images')
+      .set('parser', {
+        dataUrlCondition: {
+          maxSize: 10 * 1024 // 4KiB
+        }
+      })
   }
 })
