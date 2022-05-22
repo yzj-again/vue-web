@@ -23,7 +23,11 @@
         <div class="spec">
           <GoodsName :goods="goods"></GoodsName>
           <!--SKU组件-->
-          <GoodsSku :goods="goods"></GoodsSku>
+          <GoodsSku :goods="goods" skuId="1369155864430120962" @change="changeSku"></GoodsSku>
+          <!--数量选择-->
+          <WebNumberBox v-model="num" :max="goods.inventory" label="数量"></WebNumberBox>
+          <!--按钮组件-->
+          <WebButton type="primary" style="margin-top:20px;">加入购物车</WebButton>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -65,7 +69,21 @@ export default {
   setup () {
     // 1.获取商品详情,进行渲染
     const goods = useGoods()
-    return { goods }
+    const changeSku = (sku) => {
+      // 修改商品的现价原价信息
+      if (sku.skuId) {
+        goods.value.price = sku.price
+        goods.value.oldPrice = sku.oldPrice
+        goods.value.inventory = sku.inventory
+      }
+    }
+    // 商品数量选择数据 双向数据绑定
+    const num = ref(1)
+    return {
+      goods,
+      changeSku,
+      num
+    }
   }
 }
 // 方法封装在外面,将来逻辑太多怎么办

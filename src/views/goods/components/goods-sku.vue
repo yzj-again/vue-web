@@ -17,6 +17,7 @@
 </template>
 <script>
 import powerSet from '@/vender/power-set'
+import goods from '@/views/goods'
 
 const split = '★'
 // 得到一个路径字典集合
@@ -49,6 +50,7 @@ const getPathMap = (skus) => {
   })
   return pathMap
 }
+// 每一次选中判断时都要重新生成选中数组
 const getSelectedValues = (specs) => {
   const arr = []
   specs.forEach(item => {
@@ -78,16 +80,34 @@ const updateDisableStatus = (specs, pathMap) => {
     })
   })
 }
+// 默认选中
+const initDefaultSelected = (goods, skuId) => {
+  // 1.导出sku的信息
+  // 2.遍历每一个按钮,按钮值===sku记录的值
+  const sku = goods.skus.find(item => item.id === skuId)
+  goods.specs.forEach((item, index) => {
+    const val = item.values.find(val => val.name === sku.specs[index].valueName)
+    val.selected = true
+  })
+}
 export default {
   name: 'GoodsSku',
   props: {
     goods: {
       type: Object,
       default: () => ({})
+    },
+    skuId: {
+      type: String,
+      default: ''
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const getMap = getPathMap(props.goods.skus)
+    // 根据skuId初始化选中
+    if (props.skuId) {
+      initDefaultSelected(props.goods, props.skuId)
+    }
     // 组件初始化更新禁用状态
     updateDisableStatus(props.goods.specs, getMap)
     // 1.选中与取消选中,约定在每一个按钮都拥有自己的选中状态数据:selected
@@ -107,6 +127,28 @@ export default {
       }
       // 点击按钮时,更新按钮禁用状态
       updateDisableStatus(props.goods.specs, getMap)
+      // 将你选择的sku信息通知父组件{skuId,price,oldPrice,inventory,specsText}
+      // 只有选择完整之后才能发送信息
+      // 1.选择完整的sku组合按钮,才可以拿到这些信息,提交父组件
+      // 2.不是完整的sku组件,提交空对象给父组件
+      const validSelectedValues = getSelectedValues(props.goods.specs).filter(val => val)
+      if (validSelectedValues.length === props.goods.specs.length) {
+        // 找skuId
+        const skuIds = getMap[validSelectedValues.join(split)]
+        const sku = props.goods.skus.find(sku => sku.id === skuIds[0])
+        emit('change', {
+          skuId: sku.id,
+          price: sku.price,
+          oldPrice: sku.oldPrice,
+          inventory: sku.inventory,
+          // 拼接属性名和属性值
+          specsText: sku.specs.reduce((p, c) => `${p} ${c.name}:${c.valueName}`, '').replace(' ', '')
+        })
+      } else {
+        // 没选完情况
+        // 购物车传空对象,判断方便
+        emit('change', {})
+      }
     }
     return { getSku }
   }
