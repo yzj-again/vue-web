@@ -4,9 +4,12 @@
       <dt>{{ item.name }}</dt>
       <dd>
         <template v-for="val in item.values" :key="val.name">
-          <img :class="{selected:val.selected}" @click="getSku(item,val)" v-if="val.picture" :src="val.picture"
+          <img :class="{selected:val.selected,disabled:val.disabled}" @click="getSku(item,val)" v-if="val.picture"
+               :src="val.picture"
                :title="val.name" alt="">
-          <span :class="{selected:val.selected}" @click="getSku(item,val)" v-else>{{ val.name }}</span>
+          <span :class="{selected:val.selected,disabled:val.disabled}" @click="getSku(item,val)" v-else>{{
+              val.name
+            }}</span>
         </template>
       </dd>
     </dl>
@@ -15,7 +18,7 @@
 <script>
 import powerSet from '@/vender/power-set'
 
-const spliter = '★'
+const split = '★'
 // 得到一个路径字典集合
 const getPathMap = (skus) => {
   // 1.得到所有的sku集合 props.goods.skus
@@ -34,7 +37,7 @@ const getPathMap = (skus) => {
       // 遍历子集,往pathMap插入数据
       valueArrPowerSet.forEach(arr => {
         // 根据arr得到字符串的key,预定key=['蓝色','美国']===>'蓝色★美国'
-        const key = arr.join(spliter)
+        const key = arr.join(split)
         // 字典追加
         if (pathMap[key]) {
           pathMap[key].push(sku.id)
@@ -46,6 +49,35 @@ const getPathMap = (skus) => {
   })
   return pathMap
 }
+const getSelectedValues = (specs) => {
+  const arr = []
+  specs.forEach(item => {
+    // 选中的按钮对象
+    const selectedVal = item.values.find(val => val.selected)
+    arr.push(selectedVal ? selectedVal.name : undefined)
+  })
+  return arr
+}
+// 更新按钮禁用状态
+const updateDisableStatus = (specs, pathMap) => {
+  // 1.约定每一个按钮的状态由它本身的disabled状态来控制
+  // specs是由一行一行的数据组成
+  specs.forEach((item, index) => {
+    const selectedValues = getSelectedValues(specs)
+    item.values.forEach(val => {
+      // 去路径字典中查找数据,有,可以点击(false);没有,不可以点击(true)-禁用
+      // val.disabled = !pathMap[val.name]
+      // 将当前按钮套入数组中
+      // 2.判断当前是否选中,是选中不用判断
+      if (val.selected) return
+      // 3.拿当前的值按照顺序套入选中的值数组
+      selectedValues[index] = val.name
+      // 4.提出undefined数据,拼接key,拿key去路径字典查找
+      const key = selectedValues.filter(value => value).join(split)
+      val.disabled = !pathMap[key]
+    })
+  })
+}
 export default {
   name: 'GoodsSku',
   props: {
@@ -55,10 +87,16 @@ export default {
     }
   },
   setup (props) {
+    const getMap = getPathMap(props.goods.skus)
+    // 组件初始化更新禁用状态
+    updateDisableStatus(props.goods.specs, getMap)
     // 1.选中与取消选中,约定在每一个按钮都拥有自己的选中状态数据:selected
     // 1.1点击的是已选中,只需要取消当前的选中
     // 1.2点击的是未选中,把同一规格的按钮改成未选中,当前点击的改成选中
     const getSku = (item, val) => {
+      // 但按钮是禁用的阻止程序运行
+      if (val.disabled) return
+      // 如果不是禁用,正常执行
       if (val.selected) {
         val.selected = false
       } else {
@@ -67,9 +105,9 @@ export default {
         })
         val.selected = true
       }
+      // 点击按钮时,更新按钮禁用状态
+      updateDisableStatus(props.goods.specs, getMap)
     }
-    const getMap = getPathMap(props.goods.skus)
-    console.log(getMap)
     return { getSku }
   }
 }
