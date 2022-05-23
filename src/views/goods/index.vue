@@ -36,7 +36,7 @@
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
-          <div class="goods-tabs"></div>
+          <GoodsTabs></GoodsTabs>
           <!-- 注意事项 -->
           <div class="goods-warn"></div>
         </div>
@@ -53,6 +53,7 @@ import GoodsImage from '@/views/goods/components/goods-image'
 import GoodsSales from '@/views/goods/components/goods-sales'
 import GoodsName from '@/views/goods/components/goods-name'
 import GoodsSku from '@/views/goods/components/goods-sku'
+import GoodsTabs from '@/views/goods/components/goods-tabs'
 import { nextTick, ref, watch } from 'vue'
 import { findGoods } from '@/api/product'
 import { useRoute } from 'vue-router'
@@ -64,7 +65,8 @@ export default {
     GoodsImage,
     GoodsSales,
     GoodsName,
-    GoodsSku
+    GoodsSku,
+    GoodsTabs
   },
   setup () {
     // 1.获取商品详情,进行渲染
