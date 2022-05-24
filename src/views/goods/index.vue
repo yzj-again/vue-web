@@ -38,10 +38,13 @@
           <!-- 商品+评价 -->
           <GoodsTabs></GoodsTabs>
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <GoodsWarn></GoodsWarn>
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <GoodsHot></GoodsHot>
+          <GoodsHot :type="2"></GoodsHot>
+        </div>
       </div>
     </div>
   </div>
@@ -54,7 +57,9 @@ import GoodsSales from '@/views/goods/components/goods-sales'
 import GoodsName from '@/views/goods/components/goods-name'
 import GoodsSku from '@/views/goods/components/goods-sku'
 import GoodsTabs from '@/views/goods/components/goods-tabs'
-import { nextTick, ref, watch } from 'vue'
+import GoodsHot from '@/views/goods/components/goods-hot'
+import GoodsWarn from '@/views/goods/components/goods-warn'
+import { nextTick, provide, ref, watch } from 'vue'
 import { findGoods } from '@/api/product'
 import { useRoute } from 'vue-router'
 
@@ -66,7 +71,9 @@ export default {
     GoodsSales,
     GoodsName,
     GoodsSku,
-    GoodsTabs
+    GoodsTabs,
+    GoodsHot,
+    GoodsWarn
   },
   setup () {
     // 1.获取商品详情,进行渲染
@@ -81,6 +88,8 @@ export default {
     }
     // 商品数量选择数据 双向数据绑定
     const num = ref(1)
+    // 提供goods数据给后代组件使用
+    provide('goods', goods)
     return {
       goods,
       changeSku,

@@ -67,6 +67,7 @@ export default {
         }
       }, props.duration)
     }
+    // console.log(props.autoPlay)
     // 需要监听sliders数据变化,判断如果有数据且autoPlay是true
     watch(() => props.sliders, (newVal) => {
       if (newVal.length && props.autoPlay) {

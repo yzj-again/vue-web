@@ -5,7 +5,7 @@
       <span class="title">{{ goodsId ? '同类商品推荐' : '猜你喜欢' }}</span>
     </div>
     <!-- 此处使用改造后的web-carousel.vue -->
-    <WebCarousel :sliders="sliders"></WebCarousel>
+    <WebCarousel autoPlay :sliders="sliders"></WebCarousel>
   </div>
 </template>
 
