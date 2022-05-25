@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="sort">
+    <div class="sort" v-if="commentInfo">
       <span>排序：</span>
       <a @click="changeSort(null)" :class="{active:requestParams.sortField===null}"
          href="javascript:;">默认</a>
@@ -48,6 +48,9 @@
         </div>
       </div>
     </div>
+    <!--分页组件-->
+    <WebPagination @current-change="changePage" :total="total" :pageSize="requestParams.pageSize"
+                   :currentPage="requestParams.page" v-if="total"></WebPagination>
   </div>
 </template>
 <script>
@@ -114,11 +117,13 @@ export default {
     })
     // 初始化和筛选条件改变时发请求
     const commentList = ref([])
+    const total = ref(0)
     watch(requestParams, () => {
       // 初始化页码 - 这里不会触发watch?不建议
       // requestParams.page = 1
-      findGoodsCommentList(goods.id, requestParams).then(data => {
+      findGoodsCommentList(goods.value.id, requestParams).then(data => {
         commentList.value = data.result.items
+        total.value = data.result.counts
       })
     }, { immediate: true })
     // 定义转换数据的函数 - 过滤器
@@ -129,6 +134,10 @@ export default {
     const formatNickname = (nickname) => {
       return nickname.substr(0, 1) + '****' + nickname.substr(-1)
     }
+    // 实现分页切换
+    const changePage = (newPage) => {
+      requestParams.page = newPage
+    }
     return {
       commentInfo,
       currentTagIndex,
@@ -137,7 +146,9 @@ export default {
       changeSort,
       commentList,
       formatSpecs,
-      formatNickname
+      formatNickname,
+      total,
+      changePage
     }
   }
 }
