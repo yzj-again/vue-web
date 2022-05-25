@@ -41,3 +41,24 @@ export const findGoodsHot = ({
     type
   })
 }
+
+/**
+ * 获取商品的评价统计信息
+ * @param {String} id - 商品ID
+ */
+export const findGoodsCommentInfo = (id) => {
+  // return request(`/goods/${id}/evaluate`, 'get')
+  return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate`, 'get')
+}
+// axios遇见https开头的地址,不会加上基准地址
+// https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate
+
+/**
+ * 获取商品的评价列表
+ * @param {String} id - 商品ID
+ * @param {Object} params - 参数信息
+ */
+export const findGoodsCommentList = (id, params) => {
+  // return request(`/goods/${id}/evaluate`, 'get')
+  return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate/page`, 'get', params)
+}
