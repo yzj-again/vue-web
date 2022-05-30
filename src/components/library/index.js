@@ -7,6 +7,7 @@
 // import WebBread from '@/components/library/web-bread'
 // import WebBreadItem from '@/components/library/web-bread-item'
 import defaultImg from '@/assets/images/200.png'
+import Message from '@/components/library/Message'
 // 1.使用require提供的函数context加载某一个目录下的所有.vue后缀的文件
 // 导入library文件夹下的所有组件
 // 批量导入需要使用一个函数 require.context(dir,deep,matching)
@@ -30,6 +31,8 @@ export default {
     })
     // 定义指令
     defineDirective(app)
+    // 定义一个原型函数
+    app.config.globalProperties.$message = Message
   }
 }
 // require.context() 是webpack提供的一个自动导入的API

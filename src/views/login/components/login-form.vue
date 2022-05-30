@@ -87,6 +87,7 @@
 <script>
 import { reactive, ref, watch } from 'vue'
 import { Form, Field } from 'vee-validate'
+import Message from '@/components/library/Message'
 import schema from '@/utils/vee-validate-schema'
 
 export default {
@@ -134,11 +135,24 @@ export default {
       // const formCom = ref(null)  + return { formCom }
       formCom.value.resetForm()
     })
+    // setup中获取组件实例
+    // app应用实例  组件实例在应用实例里
+    // const { proxy } = getCurrentInstance()
+
     // 整体表单的确认
     const submit = async () => {
       // Form提供一个validate函数作为整体表单的校验,返回的是Promise
       const valid = await formCom.value.validate()
       console.log(valid)
+      Message({
+        type: 'error',
+        text: '用户名或密码错误'
+      })
+      // 调原型上的方法,不用选项api方法
+      // proxy.$message({
+      //   type: 'error',
+      //   text: '用户名或密码错误'
+      // })
     }
     return {
       isMsgLogin,
@@ -148,6 +162,7 @@ export default {
       submit
     }
   }
+
 }
 </script>
 <style scoped lang="less">

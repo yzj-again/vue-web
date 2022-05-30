@@ -1,5 +1,5 @@
 <template>
-  <div class="web-checkbox" @click="changeChecked()">
+  <div class="web-checkbox" @click="changeChecked">
     <i v-if="checked" class="iconfont icon-checked"></i>
     <i v-else class="iconfont icon-unchecked"></i>
     <span v-if="$slots.default"><slot></slot></span>
@@ -7,8 +7,10 @@
 </template>
 <script>
 // span接受label文字
-import { useVModel } from '@vueuse/core/index'
+
 // v-model === :modelValue + @update:modelValue
+import { useVModel } from '@vueuse/core/index'
+
 export default {
   name: 'WebCheckbox',
   props: {
