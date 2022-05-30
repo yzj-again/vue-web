@@ -7,17 +7,17 @@ export default {
       // 用户信息
       profile: {
         id: '',
-        avatar: '',
-        nickname: '',
         account: '',
+        avatar: '',
         mobile: '',
+        nickname: '',
         token: ''
       }
     }
   },
   mutations: {
     // 修改用户信息
-    steUser (state, payload) {
+    setUser (state, payload) {
       state.profile = payload
     }
   }

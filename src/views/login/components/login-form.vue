@@ -89,6 +89,9 @@ import { reactive, ref, watch } from 'vue'
 import { Form, Field } from 'vee-validate'
 import Message from '@/components/library/Message'
 import schema from '@/utils/vee-validate-schema'
+import { userAccountLogin } from '@/api/user'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'LoginForm',
@@ -140,19 +143,64 @@ export default {
     // const { proxy } = getCurrentInstance()
 
     // 整体表单的确认
+    const store = useStore()
+    // api方法
+    const router = useRouter()
+    // 路由信息
+    const route = useRoute()
     const submit = async () => {
       // Form提供一个validate函数作为整体表单的校验,返回的是Promise
       const valid = await formCom.value.validate()
-      console.log(valid)
-      Message({
-        type: 'error',
-        text: '用户名或密码错误'
-      })
+      // console.log(valid)
+      // Message({
+      //   type: 'error',
+      //   text: '用户名或密码错误'
+      // })
       // 调原型上的方法,不用选项api方法
       // proxy.$message({
       //   type: 'error',
       //   text: '用户名或密码错误'
       // })
+      if (valid) {
+        const {
+          account,
+          password
+        } = form
+        userAccountLogin({
+          account,
+          password
+        }).then(data => {
+          // 存储用户信息到vuex
+          const {
+            id,
+            account,
+            avatar,
+            mobile,
+            nickname,
+            token
+          } = data.result
+          store.commit('user/setUser', {
+            id,
+            account,
+            avatar,
+            mobile,
+            nickname,
+            token
+          })
+          // 实现返回跳转
+          router.push(route.query.redirectUrl || '/')
+          // 消息提示
+          Message({
+            type: 'success',
+            text: '登录成功'
+          })
+        }).catch(e => {
+          // 失败提示
+          if (e.response.data) {
+            Message({ type: 'error', text: e.response.data.message || '登录失败' })
+          }
+        })
+      }
     }
     return {
       isMsgLogin,
