@@ -78,7 +78,9 @@
       <a @click="submit" href="javascript:;" class="btn">登录</a>
     </Form>
     <div class="action">
-      <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="">
+      <a href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
+        <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="">
+      </a>
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>
@@ -231,7 +233,6 @@ export default {
         pause()
       } else {
         time.value--
-        console.log(time.value)
       }
     }, 1000, {
       // 默认不开启定时任务
@@ -257,7 +258,7 @@ export default {
             type: 'success',
             text: '发送成功'
           })
-          time.value = 10
+          time.value = 60
           resume()
         }
       } else {
@@ -265,6 +266,16 @@ export default {
         formCom.value.setFieldError('mobile', valid)
       }
     }
+    // 初始化qq登录按钮
+    // 1.准备span有id = qqLoginBtn
+    // 2.QC.login({btnId="qqLoginBtn"})
+    // 有js文件,但没有'qc'这个包,忽略打包qc
+    // onMounted(() => {
+    //   // 组件渲染完毕，使用QC生成QQ登录按钮
+    //   QC.Login({
+    //     btnId: 'qqLoginBtn'
+    //   })
+    // })
     return {
       isMsgLogin,
       form,

@@ -16,6 +16,7 @@ module.exports = defineConfig({
     }
   },
   chainWebpack: config => {
+    // 图片懒加载
     config.module
       .rule('images')
       .set('parser', {
@@ -23,5 +24,16 @@ module.exports = defineConfig({
           maxSize: 10 * 1024 // 4KiB
         }
       })
+    // 这个是给webpack-dev-server开启可IP和域名访问权限,
+    // vue-cli不允许->域名:端口访问
+    // 域名解析成线上的了
+  },
+  devServer: {
+    allowedHosts: 'all'
+  },
+  configureWebpack: {
+    externals: {
+      qc: 'QC'
+    }
   }
 })
