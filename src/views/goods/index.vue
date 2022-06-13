@@ -22,12 +22,12 @@
         </div>
         <div class="spec">
           <GoodsName :goods="goods"></GoodsName>
-          <!--SKU组件-->
-          <GoodsSku :goods="goods" skuId="1369155864430120962" @change="changeSku"></GoodsSku>
+          <!--SKU组件 skuId="1369155864430120962"测试-->
+          <GoodsSku :goods="goods" @change="changeSku" skuId="1369155864430120962"></GoodsSku>
           <!--数量选择-->
           <WebNumberBox v-model="num" :max="goods.inventory" label="数量"></WebNumberBox>
           <!--按钮组件-->
-          <WebButton type="primary" style="margin-top:20px;">加入购物车</WebButton>
+          <WebButton @click="insertCart" type="primary" style="margin-top:20px;">加入购物车</WebButton>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -62,6 +62,8 @@ import GoodsWarn from '@/views/goods/components/goods-warn'
 import { nextTick, provide, ref, watch } from 'vue'
 import { findGoods } from '@/api/product'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import Message from '@/components/library/Message'
 
 export default {
   name: 'WebGoodsPage',
@@ -85,15 +87,59 @@ export default {
         goods.value.oldPrice = sku.oldPrice
         goods.value.inventory = sku.inventory
       }
+      // 记录选择后sku
+      currSKU.value = sku
     }
     // 商品数量选择数据 双向数据绑定
     const num = ref(1)
     // 提供goods数据给后代组件使用
     provide('goods', goods)
+    // 加入购物车
+    const store = useStore()
+    const currSKU = ref(null)
+    const insertCart = () => {
+      // 约定那些字段加入本地vuex
+      // 本地：id skuId name picture price nowPrice count attrsText selected stock isEffective
+      if (currSKU.value && currSKU.value.skuId) {
+        // 解构内容
+        const {
+          skuId,
+          specsText: attrsText,
+          inventory: stock
+        } = currSKU.value
+        const {
+          id,
+          name,
+          price,
+          mainPictures
+        } = goods.value
+        store.dispatch('cart/insertCart', {
+          skuId,
+          attrsText,
+          stock,
+          id,
+          name,
+          price,
+          nowPrice: price,
+          picture: mainPictures[0],
+          selected: true,
+          isEffective: true,
+          count: num.value
+        }).then(() => {
+          Message({
+            type: 'success',
+            text: '加入购物车成功'
+          })
+        })
+      } else {
+        Message({ text: '请选择完整规格' })
+      }
+    }
     return {
       goods,
       changeSku,
-      num
+      num,
+      insertCart
     }
   }
 }

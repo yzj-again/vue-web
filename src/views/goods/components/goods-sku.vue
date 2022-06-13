@@ -17,8 +17,6 @@
 </template>
 <script>
 import powerSet from '@/vender/power-set'
-import goods from '@/views/goods'
-
 const split = '★'
 // 得到一个路径字典集合
 const getPathMap = (skus) => {
